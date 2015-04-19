@@ -63,8 +63,6 @@ Game.POPPED = 9;
 Game.grid = Array.matrix(Game.HEIGHT, Game.WIDTH, 0);
 
 
-
-
 // grid_populate()
 
 // : populates grid with random integers (0,1,2) representing colors.
@@ -127,35 +125,21 @@ function draw_rect(){
 }
 
 function draw_score(){
-
-
-
-
-
     ctx.beginPath();
-
-
     var my_grad=ctx.createLinearGradient(0,0,0,900);
     my_grad.addColorStop(0,"#0073FF");
     my_grad.addColorStop(1,"white");
     ctx.fillStyle=my_grad;
     ctx.fillRect(10, 610, 580, 180);
 
-
-
-
-
-
 }
 
 
 
 
+//function canvasOnClickHandler()
 
-
-
-
-//function
+//generic clickhandaler I took from my old webGL assignments
 
 function canvasOnClickHandler(event) {
     var block = cursor_Position(event);
@@ -167,9 +151,7 @@ function canvasOnClickHandler(event) {
     match_check(block, popStack);
    // match_check_nr(block, popStack);
 
-
     // console.log("selected block is :" + block);
-
 
     for (var h = 0; h < popStack.length; h++) {
         var  y = popStack[h][0];
@@ -182,6 +164,12 @@ function canvasOnClickHandler(event) {
 
     render();
 }
+
+
+
+//function canvasOnClickHandler()
+
+//Canvas position function
 
 function cursor_Position(event) {
     var x; var y;
@@ -219,7 +207,7 @@ function match_check(block, popStack) {
                 }
             }
 /*
-            if (Game.grid[block[0]][block[1]] === Game.grid[block[0]][(block[1] - 1)]) {   //check if right block matches
+            if (Game.grid[block[0]][block[1]] === Game.grid[block[0]][(block[1] - 1)]) {   //check if left block matches
                 var blockcurr = [block[0], (block[1] - 1)];
                 var recFlag = popStack.indexOf(blockcurr);
                 if (recFlag < 0) {
@@ -228,13 +216,15 @@ function match_check(block, popStack) {
             }
 */
 
-
             console.log("listbool check :" + popStack[0][1]);
     }
 }
 
 
+//update()
 
+//Function to observe what squares have been marked for removal and adjust rows.
+//brings down and inserts new random colored block.
 
 function update() {
 
