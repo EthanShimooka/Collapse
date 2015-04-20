@@ -193,7 +193,19 @@ function cursor_Position(event) {
 }
 
 
+//match_check()
+
+// The algorithm for detecting a given selected area
 //
+// <from my whiteboard>
+//
+//For block b,
+// add b to the stack.
+//   For each block c adjacent to b,
+//     if c is b's color and is not in the stack,
+//       recursive call on c
+//
+//  *at least that's what I had going on in my head
 
 function match_check(block, popStack) {
 
@@ -253,7 +265,6 @@ function update() {
 function load () {
     grid_populate();
     canvas.addEventListener("click", canvasOnClickHandler, false);
-
 
 }
 
