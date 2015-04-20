@@ -86,6 +86,7 @@ function grid_populate(){
 
 function draw_rect(){
     var color;
+    var grd;
     for (var h = 0; h < Game.HEIGHT; h++) {
         for (var w = 0; w < Game.WIDTH; w++) {
             color = Game.grid[h][w];
@@ -93,7 +94,7 @@ function draw_rect(){
             if (color === 0) {
                 ctx.fillStyle = "red";
 
-                var grd=ctx.createRadialGradient(0,0,2,90,70,1000);
+                grd=ctx.createRadialGradient(0,0,2,90,70,1000);
                 grd.addColorStop(0," #D0FF00");
                 grd.addColorStop(1,"white");
 
@@ -102,7 +103,7 @@ function draw_rect(){
 
             } else if (color === 1) {
 
-                var grd=ctx.createRadialGradient(300,300,2,90,70,1000);
+                grd=ctx.createRadialGradient(300,300,2,90,70,1000);
                 grd.addColorStop(0," #FF00BB");
                 grd.addColorStop(1,"white");
 
@@ -112,7 +113,7 @@ function draw_rect(){
                 ctx.fillStyle = "black";
             } else {
 
-                var grd=ctx.createRadialGradient(600,600,2,90,70,1000);
+                grd=ctx.createRadialGradient(600,600,2,90,70,1000);
                 grd.addColorStop(0,"#4400FF");
                 grd.addColorStop(1,"white");
 
@@ -187,9 +188,8 @@ function cursor_Position(event) {
     x -= canvas.offsetLeft;
     y -= canvas.offsetTop;
 
-    var block = [Math.floor((y - 4) / Game.CELL_SIZE),
+    return [Math.floor((y - 4) / Game.CELL_SIZE),
         Math.floor((x - 2) / Game.CELL_SIZE)];
-    return block;
 }
 
 
@@ -211,7 +211,7 @@ function match_check(block, popStack) {
     var recFlag;
     var blockcurr = [0,0];
 
-    if ( Game.grid[block[0]],[block[1]]) {  //check that block exists
+    if ( Game.grid[block[0]][block[1]]) {  //check that block exists
 
         popStack.push([block]);  //add block b to stack
 
@@ -323,7 +323,6 @@ function render () {
     draw_rect();
     draw_score();
 }
-
 
 load();
 main();
