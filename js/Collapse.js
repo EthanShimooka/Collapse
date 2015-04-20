@@ -28,7 +28,7 @@ var background_asset = new Image();
 
 //taken Grid constructor of arbitrary size
 
-Array.matrix = function (m, n, initial) {
+Array.matrix = function (m, n) {
     var a, i, j, mat = [];
     for (i = 0; i < m; i++) {
         a = [];
@@ -62,7 +62,7 @@ Game.POPPED = 9;
 // All tile positions and color information are stored in a 2d array object, with each entry containing
 // an integer representing a game color.
 
-Game.grid = Array.matrix(Game.HEIGHT, Game.WIDTH, 0);
+Game.grid = Array.matrix(Game.HEIGHT, Game.WIDTH);
 
 
 // grid_populate()
@@ -146,14 +146,10 @@ function draw_score(){
 
 function canvasOnClickHandler(event) {
     var block = cursor_Position(event);
-    var popStack = new Array();
-
-    popStack = [];
-
+    var popStack = [];
 
     match_check(block, popStack);
-   // match_check_nr(block, popStack);
-
+    
     // console.log("selected block is :" + block);
 
     for (var h = 0; h < popStack.length; h++) {
