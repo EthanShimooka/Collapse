@@ -218,7 +218,7 @@ function match_check(block, popStack) {
 
         if (Game.grid[block[0]][block[1]] === Game.grid[block[0]][(block[1] + 1)]) {   //check if right block matches
 
-             blockcurr = [block[0], (block[1] - 1)];
+             blockcurr = [block[0], (block[1] + 1)];
              recFlag = popStack.indexOf(blockcurr);
             console.log("the right value is: " + blockcurr);
             if (recFlag < 0) {
@@ -228,7 +228,7 @@ function match_check(block, popStack) {
             }
         if (Game.grid[block[0]][block[1]] === Game.grid[block[0]][(block[1] - 1)]) {   //check if left block matches
 
-             blockcurr = [block[0], (block[1] + 1)];
+             blockcurr = [block[0], (block[1] - 1)];
              recFlag = popStack.indexOf(blockcurr);
             console.log("the left value is: " + blockcurr);
             if (recFlag < 0) {
