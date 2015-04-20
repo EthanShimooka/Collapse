@@ -43,7 +43,7 @@ Array.matrix = function (m, n) {
 
 //Game Object container.
 //
-
+var popStack = [];
 var Game = {};
 
 Game.CELL_SIZE = 30;  //size of grid
@@ -74,10 +74,8 @@ function grid_populate(){
       for (var w = 0; w < Game.WIDTH; w++) {
 
           Game.grid[h][w] = Math.floor(Math.random() * 3);
-
       }
    }
-
 }
 
 //draw_rect ()
@@ -97,34 +95,30 @@ function draw_rect(){
                 grd=ctx.createRadialGradient(0,0,2,90,70,1000);
                 grd.addColorStop(0," #D0FF00");
                 grd.addColorStop(1,"white");
-
                 ctx.fillStyle=grd;
-
 
             } else if (color === 1) {
 
                 grd=ctx.createRadialGradient(300,300,2,90,70,1000);
                 grd.addColorStop(0," #FF00BB");
                 grd.addColorStop(1,"white");
-
                 ctx.fillStyle=grd;
 
             }else if (color === 9){
+
                 ctx.fillStyle = "black";
+
             } else {
 
                 grd=ctx.createRadialGradient(600,600,2,90,70,1000);
                 grd.addColorStop(0,"#4400FF");
                 grd.addColorStop(1,"white");
-
                 ctx.fillStyle=grd;
 
             }
-
             ctx.fillRect(w * Game.CELL_SIZE + 1, h * Game.CELL_SIZE + 1, Game.CELL_SIZE - 1, Game.CELL_SIZE - 1);
-                //ctx.stroke();
         }
-        }
+    }
 }
 
 function draw_score(){
@@ -138,28 +132,29 @@ function draw_score(){
 }
 
 
-
-
 //function canvasOnClickHandler()
 
 //generic clickhandaler I took from my old webGL assignments
 
 function canvasOnClickHandler(event) {
     var block = cursor_Position(event);
-    var popStack = [];
+
 
     match_check(block, popStack);
-    
+
     // console.log("selected block is :" + block);
 
-    for (var h = 0; h < popStack.length; h++) {
+    for (var h = 0; h < popStack.length; ++h) {
         var  y = popStack[h][0];
         var  x = popStack[h][1];
         Game.grid[y][x] = 9;
 
-        console.log(popStack[h]);
+        console.log("the value of popStack is :" + popStack[h]);
      }
 
+    popStack = []; //clear stack
+    var aud = new Audio("assets/chime.mp3"); // buffers automatically when created
+    aud.play();
 
     render();
 }
@@ -171,7 +166,7 @@ function canvasOnClickHandler(event) {
 //Canvas position function
 
 function cursor_Position(event) {
-    var x; var y;
+    var x; var y; var block;
 
     if (event.pageX || event.pageY) {
         x = event.pageX;
@@ -184,8 +179,10 @@ function cursor_Position(event) {
     x -= canvas.offsetLeft;
     y -= canvas.offsetTop;
 
-    return [Math.floor((y - 4) / Game.CELL_SIZE),
+    block = [Math.floor((y - 4) / Game.CELL_SIZE),
         Math.floor((x - 2) / Game.CELL_SIZE)];
+
+    return block;
 }
 
 
@@ -203,63 +200,65 @@ function cursor_Position(event) {
 //
 //  *at least that's what I had going on in my head
 
-function match_check(block, popStack) {
+function match_check(block) {
     var recFlag;
     var blockcurr = [0,0];
 
     if ( Game.grid[block[0]][block[1]]) {  //check that block exists
 
-        popStack.push([block]);  //add block b to stack
+        popStack.push([block[0],block[1]]);  //add block b to stack
 
 
         if (Game.grid[block[0]][block[1]] === Game.grid[block[0]][(block[1] + 1)]) {   //check if right block matches
 
-             blockcurr = [block[0], (block[1] + 1)];
-             recFlag = popStack.indexOf(blockcurr);
+            blockcurr = [block[0], (block[1] + 1)];
+            recFlag = coord_search(blockcurr);
             console.log("the right value is: " + blockcurr);
+            console.log("the flag is: " + recFlag);
+
             if (recFlag < 0) {
-                match_check(blockcurr, popStack);
+                match_check(blockcurr);
             }
 
             }
         if (Game.grid[block[0]][block[1]] === Game.grid[block[0]][(block[1] - 1)]) {   //check if left block matches
 
-             blockcurr = [block[0], (block[1] - 1)];
-             recFlag = popStack.indexOf(blockcurr);
+            blockcurr = [block[0] ,(block[1] - 1)];
+            recFlag = coord_search(blockcurr);
             console.log("the left value is: " + blockcurr);
             if (recFlag < 0) {
-                match_check(blockcurr, popStack);
+                match_check(blockcurr);
             }
         }
         if (Game.grid[block[0]][block[1]] === Game.grid[(block[0] + 1)][block[1]]) {   //check if top block matches
 
             blockcurr = [(block[0] + 1), block[1]];
-             recFlag = popStack.indexOf(blockcurr);
+            recFlag = coord_search(blockcurr);
             console.log("the top value is: " + blockcurr);
             if (recFlag < 0) {
-                match_check(blockcurr, popStack);
+                match_check(blockcurr);
             }
         }
         if (Game.grid[block[0]][block[1]] === Game.grid[(block[0] - 1)][block[1]]) {   //check if bottom block matches
-             blockcurr = [(block[0] - 1), block[1]];
-             recFlag = popStack.indexOf(blockcurr);
+            blockcurr = [(block[0] - 1), block[1]];
+            recFlag = coord_search(blockcurr);
             console.log("the bottom value is: " + blockcurr);
             if (recFlag < 0) {
-                match_check(blockcurr, popStack);
+                match_check(blockcurr);
             }
         }
-/*
-            if (Game.grid[block[0]][block[1]] === Game.grid[block[0]][(block[1] - 1)]) {   //check if left block matches
-                var blockcurr = [block[0], (block[1] - 1)];
-                var recFlag = popStack.indexOf(blockcurr);
-                if (recFlag < 0) {
-                    match_check(blockcurr, popStack);
-                }
-            }
-*/
-
-            console.log("listbool check :" + popStack[0][1]);
     }
+}
+
+
+function coord_search(block){
+    for (var i = 0;i < popStack.length;++i){
+        if ((block[0] === popStack[i][0]) && (block[1] === popStack[i][1]))
+            console.log("the popstack value is: " + popStack[i][0]);
+
+        return 1;
+    }
+    return -1
 }
 
 
@@ -283,6 +282,9 @@ function update() {
             }
         }
     }
+
+
+
 }
 
 
@@ -295,7 +297,6 @@ function load () {
     canvas.addEventListener("click", canvasOnClickHandler, false);
 
 }
-
 
 // main()
 
