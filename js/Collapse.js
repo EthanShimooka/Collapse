@@ -26,6 +26,8 @@ var background_asset = new Image();
 
 
 
+//taken Grid constructor of arbitrary size
+
 Array.matrix = function (m, n, initial) {
     var a, i, j, mat = [];
     for (i = 0; i < m; i++) {
@@ -44,11 +46,11 @@ Array.matrix = function (m, n, initial) {
 
 var Game = {};
 
-Game.CELL_SIZE = 30;
-Game.X = 600;
-Game.Y = 600;
-Game.WIDTH = Game.X / Game.CELL_SIZE;
-Game.HEIGHT = Game.Y / Game.CELL_SIZE;
+Game.CELL_SIZE = 30;  //size of grid
+Game.X = 600; //size of board (x)
+Game.Y = 600; //size of board (y)
+Game.WIDTH = Game.X / Game.CELL_SIZE;  // number of blocks wide
+Game.HEIGHT = Game.Y / Game.CELL_SIZE; //number of blocks high
 
 Game.RED = 0;
 Game.BLUE = 1;
