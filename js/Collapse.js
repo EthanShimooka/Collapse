@@ -208,18 +208,50 @@ function cursor_Position(event) {
 //  *at least that's what I had going on in my head
 
 function match_check(block, popStack) {
+    var recFlag;
+    var blockcurr = [0,0];
 
     if ( Game.grid[block[0]],[block[1]]) {  //check that block exists
 
-        popStack.push(block);
+        popStack.push([block]);  //add block b to stack
+
 
         if (Game.grid[block[0]][block[1]] === Game.grid[block[0]][(block[1] + 1)]) {   //check if right block matches
-                var blockcurr = [block[0], (block[1] + 1)];
-                var recFlag = popStack.indexOf(blockcurr);
-                if (recFlag  < 0) {
-                    match_check(blockcurr, popStack);
-                }
+
+             blockcurr = [block[0], (block[1] - 1)];
+             recFlag = popStack.indexOf(blockcurr);
+            console.log("the right value is: " + blockcurr);
+            if (recFlag < 0) {
+                match_check(blockcurr, popStack);
             }
+
+            }
+        if (Game.grid[block[0]][block[1]] === Game.grid[block[0]][(block[1] - 1)]) {   //check if left block matches
+
+             blockcurr = [block[0], (block[1] + 1)];
+             recFlag = popStack.indexOf(blockcurr);
+            console.log("the left value is: " + blockcurr);
+            if (recFlag < 0) {
+                match_check(blockcurr, popStack);
+            }
+        }
+        if (Game.grid[block[0]][block[1]] === Game.grid[(block[0] + 1)][block[1]]) {   //check if top block matches
+
+            blockcurr = [(block[0] + 1), block[1]];
+             recFlag = popStack.indexOf(blockcurr);
+            console.log("the top value is: " + blockcurr);
+            if (recFlag < 0) {
+                match_check(blockcurr, popStack);
+            }
+        }
+        if (Game.grid[block[0]][block[1]] === Game.grid[(block[0] - 1)][block[1]]) {   //check if bottom block matches
+             blockcurr = [(block[0] - 1), block[1]];
+             recFlag = popStack.indexOf(blockcurr);
+            console.log("the bottom value is: " + blockcurr);
+            if (recFlag < 0) {
+                match_check(blockcurr, popStack);
+            }
+        }
 /*
             if (Game.grid[block[0]][block[1]] === Game.grid[block[0]][(block[1] - 1)]) {   //check if left block matches
                 var blockcurr = [block[0], (block[1] - 1)];
